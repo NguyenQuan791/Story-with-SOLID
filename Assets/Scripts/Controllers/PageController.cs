@@ -15,54 +15,52 @@ public class PageController : MonoBehaviour
     public AudioClip audioClip;
 
     ILoadPage loadPage = new LoadPage();
-    ILoadWord loadText = new LoadText();
     ISyncText syncText = new SyncText();
-    ILoadWordFilePath loadWordFilePath = new LoadWordFilePath();
     IPlaySound playSound = new PlaySound();
-    ISpamGameObjectCollider spamGameObjectCollider = new SpamGameObjectCollider();
+    IFindWordWithID loadText = new FindWordWithID();
+    ILoadWordFilePath loadWordFilePath = new LoadWordFilePath();
     ISpamTextContentGameObject spamGameObjects = new SpamTextContentGameObject();
+    ISpamGameObjectCollider spamGameObjectCollider = new SpamGameObjectCollider();
 
     Word word;
     Page page;
     WordFilePaths wordFilePaths;
     bool play = true;
-    float times = -1;
+    float times = -0.2f;
 
     GameObject[] autoTextGameObject;
 
     private void Awake()
     {
-        page = loadPage.LoadFileContent(pageFilePath);
-        wordFilePaths = loadWordFilePath.LoadFileContent(wordFilePath);
-        foreach (var item in wordFilePaths.words)
+        this.page = loadPage.LoadFileContent(this.pageFilePath);
+        this.wordFilePaths = loadWordFilePath.LoadFileContent(this.wordFilePath);
+        if (this.page.text.Length == 1)
         {
-            if(item.word_id == page.text[0].word_id)
-            {
-                word = loadText.LoadFileContent(item.file_path);
-            }
+            this.word = loadText.FindWithID(this.wordFilePaths, this.page.text[0].word_id);
         }
-        spamGameObjectCollider.SpamGameObjectCollider(page, this.transform);
+        this.spamGameObjectCollider.SpamGameObjectColliders(this.page, this.wordFilePaths, this.transform);
     }
 
     private void Start()
     {
-        string[] texts = word.text.Split(" ");
+        string[] texts = this.word.text.Split(" ");
 
         foreach (var text in texts)
         {
-           spamGameObjects.SpamTextContentGameObjects(autoText, textContent, text);
+           this.spamGameObjects.SpamTextContentGameObjects(this.autoText, this.textContent, text);
         }
-        autoTextGameObject = GameObject.FindGameObjectsWithTag(TagName.AUTO_TEXT);
+        this.autoTextGameObject = GameObject.FindGameObjectsWithTag(TagName.AUTO_TEXT);
     }
 
     private void FixedUpdate()
     {
-        times += Time.fixedDeltaTime;
-        syncText.SyncTexts(autoTextGameObject, word, times, Color.red);
+        this.times += Time.fixedDeltaTime;
+        this.syncText.SyncTexts(this.autoTextGameObject, this.word, this.times, Color.red);
 
-        if (times > 0 && play)
+        if (times > 0 && this.play)
         {
-            playSound.PlaySoundContent(audioClip, audioSource, false);
+            this.playSound.PlaySoundContent(audioClip, audioSource, false);
+            this.play = false;
         }
     }
 }

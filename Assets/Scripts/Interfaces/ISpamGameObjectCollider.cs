@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ISpamGameObjectCollider
 {
-    public void SpamGameObjectCollider(Page pageStory, Transform parent = null);
+    public void SpamGameObjectColliders(Page pageStory, WordFilePaths wordFilePaths, Transform parent = null);
 }
