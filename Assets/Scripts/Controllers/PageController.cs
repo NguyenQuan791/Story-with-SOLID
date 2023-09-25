@@ -16,46 +16,32 @@ public class PageController : MonoBehaviour
 
     ILoadPage loadPage = new LoadPage();
     ILoadWord loadText = new LoadText();
-    IPlaySound playSound = new PlaySound();
-    ISpamTextContentGameObject spamGameObjects = new SpamTextContentGameObject();
-    IConvertStringToVecter convertStringToVecter = new ConvertStringToVecter();
-    IAddCollider addCollider = new AddCollider();
-    IResetRectTranform resetRectTranform = new ResetRectTranform();
     ISyncText syncText = new SyncText();
+    ILoadWordFilePath loadWordFilePath = new LoadWordFilePath();
+    IPlaySound playSound = new PlaySound();
+    ISpamGameObjectCollider spamGameObjectCollider = new SpamGameObjectCollider();
+    ISpamTextContentGameObject spamGameObjects = new SpamTextContentGameObject();
 
     Word word;
     Page page;
-    float times = -1;
+    WordFilePaths wordFilePaths;
     bool play = true;
+    float times = -1;
 
     GameObject[] autoTextGameObject;
 
     private void Awake()
     {
-        word = loadText.LoadFileContent(wordFilePath);
         page = loadPage.LoadFileContent(pageFilePath);
-
-        foreach (var image in page.image)
+        wordFilePaths = loadWordFilePath.LoadFileContent(wordFilePath);
+        foreach (var item in wordFilePaths.words)
         {
-            List<Vector2> collider = new List<Vector2>();
-            GameObject gameCollider = new GameObject();
-
-            gameCollider.AddComponent<RectTransform>();
-            gameCollider.transform.parent = this.transform;
-            RectTransform rectTransform = gameCollider.GetComponent<RectTransform>();
-            resetRectTranform.ResetRectTranforms(rectTransform);
-
-            foreach(var touch in image.touch)
+            if(item.word_id == page.text[0].word_id)
             {
-                foreach(var vertice in touch.vertices)
-                {
-                    collider.Add(convertStringToVecter.ConvertStringToVecter2(vertice));
-                }
+                word = loadText.LoadFileContent(item.file_path);
             }
-
-            gameCollider.AddComponent<PolygonCollider2D>();
-            addCollider.AddColliders(gameCollider, collider);
         }
+        spamGameObjectCollider.SpamGameObjectCollider(page, this.transform);
     }
 
     private void Start()
@@ -66,39 +52,17 @@ public class PageController : MonoBehaviour
         {
            spamGameObjects.SpamTextContentGameObjects(autoText, textContent, text);
         }
-
         autoTextGameObject = GameObject.FindGameObjectsWithTag(TagName.AUTO_TEXT);
-    }
-
-    void PlaySound()
-    {
-        playSound.PlaySoundContent(audioClip, audioSource);
     }
 
     private void FixedUpdate()
     {
-        if (this.word.audio[0].sync_data[this.word.audio[0].sync_data.Length - 1].e > times * 1000)
-        {
-            times += Time.fixedDeltaTime;
+        times += Time.fixedDeltaTime;
+        syncText.SyncTexts(autoTextGameObject, word, times, Color.red);
 
-            foreach (var item in this.word.audio[0].sync_data)
-            {
-                if (item.s - times * 1000 <= 0 && times * 1000 - item.e <= 0)
-                {
-                    syncText.SyncTexts(autoTextGameObject, item.w, Color.red);
-                    
-                    if (play)
-                    {
-                        PlaySound();
-                        play = false;
-                    }
-                    return;
-                }
-            }
-            if (this.word.audio[0].sync_data[0].e < times * 1000 + 100)
-            {
-                syncText.SyncTexts(autoTextGameObject, "", Color.red);
-            }
+        if (times > 0 && play)
+        {
+            playSound.PlaySoundContent(audioClip, audioSource, false);
         }
     }
 }

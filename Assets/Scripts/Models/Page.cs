@@ -41,8 +41,9 @@ public class PageImage
 [System.Serializable]
 public class Texts 
 {
-    public string word_id;
     public string boundingbox;
+
+    public int word_id;
 
     public ConfigImage[] config_image;
     public ConfigAudio[] config_audio;

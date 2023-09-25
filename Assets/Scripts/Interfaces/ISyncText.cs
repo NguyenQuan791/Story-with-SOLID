@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ISyncText
 {
-    public void SyncTexts(GameObject[] texts, string text, Color color = default(Color));
+    public void SyncTexts(GameObject[] texts, Word word, float time, Color color = default(Color));
 }

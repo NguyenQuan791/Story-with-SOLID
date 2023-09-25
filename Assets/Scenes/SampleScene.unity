@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pageFilePath: D:\Downloads\Tele\4057_1_4307_1688701526\4131_page_1.json
-  wordFilePath: D:\Downloads\Tele\4057_1_4307_1688701526\word\sc0os6im92jsza0sop9zdvd5dav9d4ld_234728\40000193.json
+  wordFilePath: D:\Downloads\Tele\4057_1_4307_1688701526\word.json
   autoText: {fileID: 7222099399573113452, guid: bb545d9ab73a1fc4ab83d2fc566de2da, type: 3}
   textContent: {fileID: 2052722739}
   audioSource: {fileID: 85556238}
@@ -266,7 +266,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

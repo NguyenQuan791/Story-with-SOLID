@@ -8,6 +8,7 @@ public class SpamTextContentGameObject : MonoBehaviour, ISpamTextContentGameObje
     public void SpamTextContentGameObjects(GameObject gameObject, Transform parent = null, string text = "", float timeToDestroy = -1)
     {
         GameObject spamObject;
+
         if (text != "")
         {
             Text textGameObject;
