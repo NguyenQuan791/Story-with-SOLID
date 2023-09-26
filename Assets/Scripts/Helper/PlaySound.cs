@@ -10,7 +10,6 @@ public class PlaySound : IPlaySound
         {
             audioSource = GameObject.FindObjectOfType<AudioSource>();
         }
-
         audioSource.clip = audioClip;
         audioSource.loop = loop;
         audioSource.Play();

@@ -1,8 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public interface ISpamGameObjectCollider
 {
-    public void SpamGameObjectColliders(Page pageStory, WordFilePaths wordFilePaths, Transform parent = null);
+    //Tạo các game object có collider để bắt sự kiện click chuột
+    public void SpamGameObjectColliders(Page pageStory, WordFilePaths wordFilePaths, GameObject[] blinkGameObject, Transform parent = null);
 }

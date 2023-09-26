@@ -1,21 +1,24 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor;
-using UnityEditorInternal;
 using UnityEngine;
 
 public class SpamGameObjectCollider : ISpamGameObjectCollider
 {
-    IResetRectTranform resetRectTranform = new ResetRectTranform();
-    IConvertStringToVecter convertStringToVecter = new ConvertStringToVecter();
-    IFindWordWithID findWordWithID = new FindWordWithID();
-
-    public void SpamGameObjectColliders(Page pageStory, WordFilePaths wordFilePaths, Transform parent = null)
+    public void SpamGameObjectColliders(Page pageStory, WordFilePaths wordFilePaths, GameObject[] blinkGameObject, Transform parent = null)
     {
+        IResetRectTranform resetRectTranform = new ResetRectTranform();
+        IConvertStringToVecter convertStringToVecter = new ConvertStringToVecter();
+        IFindWordWithID findWordWithID = new FindWordWithID();
         foreach (var image in pageStory.image)
         {
+            if (image.touch.First().vertices.Length == 0)
+            {
+                continue;
+            }
             List<Vector2> collider = new List<Vector2>();
             GameObject gameCollider = new GameObject();
             gameCollider.AddComponent<RectTransform>();
@@ -44,6 +47,15 @@ public class SpamGameObjectCollider : ISpamGameObjectCollider
             clickSpamText.audioClip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audios/"+word.text+".mp3");
             clickSpamText.text = word.text;
             clickSpamText.spamText = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Spam Text.prefab");
+            clickSpamText.blinkGameObject = blinkGameObject;
+            foreach (var item in blinkGameObject)
+            {
+                if (item.name.Split('_').Last().ToLower() == word.text)
+                {
+                    clickSpamText.blink = item;
+                    break;
+                }
+            }
         }
     }
 }

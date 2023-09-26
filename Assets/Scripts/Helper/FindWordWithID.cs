@@ -18,7 +18,6 @@ public class FindWordWithID : IFindWordWithID
                 break;
             }
         }
-
         return word;
     }
 }

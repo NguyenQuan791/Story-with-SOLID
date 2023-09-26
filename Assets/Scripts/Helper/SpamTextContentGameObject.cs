@@ -5,10 +5,8 @@ using UnityEngine.UI;
 
 public class SpamTextContentGameObject : MonoBehaviour, ISpamTextContentGameObject
 {
-    public void SpamTextContentGameObjects(GameObject gameObject, Transform parent = null, string text = "", float timeToDestroy = -1)
+    public void SpamTextContentGameObjects(GameObject gameObject, Transform parent = null, string text = "")
     {
-        GameObject spamObject;
-
         if (text != "")
         {
             Text textGameObject;
@@ -25,16 +23,11 @@ public class SpamTextContentGameObject : MonoBehaviour, ISpamTextContentGameObje
 
         if(parent != null)
         {
-            spamObject = Instantiate(gameObject, parent);
+            Instantiate(gameObject, parent);
         }
         else
         {
-            spamObject = Instantiate(gameObject);
-        }
-
-        if (timeToDestroy > 0)
-        {
-            Destroy(spamObject, timeToDestroy);
+            Instantiate(gameObject);
         }
     }
 }

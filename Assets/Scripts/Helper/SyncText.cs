@@ -7,36 +7,40 @@ public class SyncText : ISyncText
 {
     public void SyncTexts(GameObject[] texts, Word word, float time, Color syncColor = default)
     {
-        if (word.audio[0].sync_data[word.audio[0].sync_data.Length - 1].e > time * 1000 - 200)
+        if (word.audio[0].sync_data[word.audio[0].sync_data.Length - 1].e < time * 1000 - 200)
         {
-            foreach (var item in word.audio[0].sync_data)
-            {
-                if (item.s - time * 1000 <= 0 && time * 1000 - item.e <= 0)
-                {
-                    foreach (var text in texts)
-                    {
-                        Text itemText = text.GetComponent<Text>();
+            return;
+        }
 
-                        if (itemText.text.ToLower() == item.w.ToLower())
-                        {
-                            itemText.color = syncColor;
-                        }
-                        else
-                        {
-                            itemText.color = Color.black;
-                        }
-                    }
-                    return;
-                }
-            }
-            if (word.audio[0].sync_data[word.audio[0].sync_data.Length - 1].e < time * 1000)
+        foreach (var item in word.audio[0].sync_data)
+        {
+            if (item.s - time * 1000 <= 0 && time * 1000 - item.e <= 0)
             {
                 foreach (var text in texts)
                 {
                     Text itemText = text.GetComponent<Text>();
-                    itemText.color = Color.black;
+
+                    if (itemText.text.ToLower() == item.w.ToLower())
+                    {
+                        itemText.color = syncColor;
+                    }
+                    else
+                    {
+                        itemText.color = Color.black;
+                    }
                 }
+                return;
             }
+        }
+
+        if (word.audio[0].sync_data[word.audio[0].sync_data.Length - 1].e < time * 1000)
+        {
+            foreach (var text in texts)
+            {
+                Text itemText = text.GetComponent<Text>();
+                itemText.color = Color.black;
+            }
+            PageController.reading = false;
         }
     }
 }
