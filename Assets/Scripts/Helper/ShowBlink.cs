@@ -11,6 +11,7 @@ public class ShowBlink : IShowBlink
         IFindWordWithID findWordWithID = new FindWordWithID();
 
         string text = findWordWithID.FindWithID(wordFilePath, page.image.Last().word_id).text;
+
         if (!PageController.reading)
         {
             foreach (var item in blinkGameObject)

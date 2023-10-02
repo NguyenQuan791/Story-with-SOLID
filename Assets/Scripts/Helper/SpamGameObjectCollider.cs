@@ -23,11 +23,12 @@ public class SpamGameObjectCollider : ISpamGameObjectCollider
             GameObject gameCollider = new GameObject();
             gameCollider.AddComponent<RectTransform>();
             gameCollider.AddComponent<ClickSpamText>();
+            gameCollider.AddComponent<HightLightText>();
             Word word = findWordWithID.FindWithID(wordFilePaths, image.word_id);
 
             if (parent != null)
             {
-                gameCollider.transform.parent = parent;
+                gameCollider.transform.SetParent(parent);
             }
             RectTransform rectTransform = gameCollider.GetComponent<RectTransform>();
             resetRectTranform.ResetRectTranforms(rectTransform);
@@ -48,6 +49,7 @@ public class SpamGameObjectCollider : ISpamGameObjectCollider
             clickSpamText.text = word.text;
             clickSpamText.spamText = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Spam Text.prefab");
             clickSpamText.blinkGameObject = blinkGameObject;
+
             foreach (var item in blinkGameObject)
             {
                 if (item.name.Split('_').Last().ToLower() == word.text)

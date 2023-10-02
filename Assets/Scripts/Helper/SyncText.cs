@@ -14,7 +14,7 @@ public class SyncText : ISyncText
 
         foreach (var item in word.audio[0].sync_data)
         {
-            if (item.s - time * 1000 <= 0 && time * 1000 - item.e <= 0)
+            if (item.s <= time * 1000 && time * 1000 <= item.e  )
             {
                 foreach (var text in texts)
                 {
@@ -29,7 +29,7 @@ public class SyncText : ISyncText
                         itemText.color = Color.black;
                     }
                 }
-                return;
+                //return;
             }
         }
 

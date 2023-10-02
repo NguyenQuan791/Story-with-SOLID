@@ -9,19 +9,15 @@ public class SpamTextContentGameObject : MonoBehaviour, ISpamTextContentGameObje
     {
         if (text != "")
         {
-            Text textGameObject;
             if (!gameObject.GetComponent<Text>())
             {
-                textGameObject = gameObject.AddComponent<Text>();
+                gameObject.AddComponent<Text>();
             }
-            else
-            {
-                textGameObject = gameObject.GetComponent<Text>();
-            }
+            Text textGameObject = gameObject.GetComponent<Text>();
             textGameObject.text = text;
         }
 
-        if(parent != null)
+        if (parent != null)
         {
             Instantiate(gameObject, parent);
         }

@@ -17,7 +17,13 @@ public class ClickSpamText : MonoBehaviour
 
     IAddBlinked addBlinked=new AddBlinked();
     INextBlink nextBlink=new NextBlink();
+    IHightLightText hightLight;
     #endregion
+
+    private void Start()
+    {
+        hightLight = gameObject.GetComponent<HightLightText>();    
+    }
 
     private void OnMouseDown()
     {
@@ -36,6 +42,7 @@ public class ClickSpamText : MonoBehaviour
         {
             Destroy(spamToDestroy);
         }
+        hightLight.HightLightTexts(text);
         addBlinked.AddBlinkeds(blink);
         nextBlink.NextBlinks(blinkGameObject);
         spamToDestroy = Instantiate(spamText, vector2, quaternion, this.transform);

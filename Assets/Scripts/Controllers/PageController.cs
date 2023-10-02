@@ -24,7 +24,7 @@ public abstract class PageController : MonoBehaviour
     protected IHideAllBlink hideAllBlink = new HideAllBlink();
     protected IFindWordWithID loadText = new FindWordWithID();
     protected ILoadWordFilePath loadWordFilePath = new LoadWordFilePath();
-    protected ISpamTextContentGameObject spamGameObjects = new SpamTextContentGameObject();
+    protected ISpamTextContentGameObject spamGameObjects;
     protected ISpamGameObjectCollider spamGameObjectCollider = new SpamGameObjectCollider();
 
     //Word word;
@@ -40,6 +40,7 @@ public abstract class PageController : MonoBehaviour
 
     private void Awake()
     {
+        spamGameObjects = gameObject.GetComponent<SpamTextContentGameObject>();
         this.RunAwake();
     }
 
